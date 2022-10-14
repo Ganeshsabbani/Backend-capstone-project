@@ -4,17 +4,13 @@ const app = express();
 
 // Your code goes here
 
-
-
-
+//Makes sure that content type is in json format
 app.use(express.json());
 
-app.all("*",async(req,res)=>{
- 
-    res.send({message:"Unmatched Url"} )
-  
-})
-
+//Showing unmatched response if tried with any other url mentioned in app
+app.all("*", async (req, res) => {
+  res.send({ message: "Unmatched Url" });
+});
 
 //To get list of subscribers from database
 app.get("/subscribers", async (req, res) => {
@@ -44,7 +40,7 @@ app.get("/subscribers/:id", async (req, res) => {
     res.send(matchedSubscriber);
   } catch (err) {
     res.status(400);
-    res.send({message:err.message});
+    res.send({ message: err.message });                   //Displaying message if id doesnt match with database
   }
 });
 
@@ -56,7 +52,7 @@ app.post("/subscribers/add", async (req, res) => {
       subscribedChannel: req.body.subscribedChannel,
     });
     await newSubscriber.save();
-    res.send({message:"Subscriber addded successfully"});
+    res.send({ message: "Subscriber addded successfully" });
   } catch (err) {
     res.send(err.message);
   }
