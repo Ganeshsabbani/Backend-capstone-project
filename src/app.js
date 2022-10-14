@@ -3,7 +3,18 @@ const subscriberModel = require("./models/subscribers");
 const app = express();
 
 // Your code goes here
+
+
+
+
 app.use(express.json());
+
+app.all("*",async(req,res)=>{
+ 
+    res.send({message:"Unmatched Url"} )
+  
+})
+
 
 //To get list of subscribers from database
 app.get("/subscribers", async (req, res) => {
@@ -45,7 +56,7 @@ app.post("/subscribers/add", async (req, res) => {
       subscribedChannel: req.body.subscribedChannel,
     });
     await newSubscriber.save();
-    res.send(newSubscriber);
+    res.send({message:"Subscriber addded successfully"});
   } catch (err) {
     res.send(err.message);
   }
