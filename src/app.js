@@ -2,15 +2,12 @@ const express = require("express");
 const subscriberModel = require("./models/subscribers");
 const app = express();
 
+
 // Your code goes here
 
 //Makes sure that content type is in json format
 app.use(express.json());
 
-//Showing unmatched response if tried with any other url mentioned in app
-app.all("*", async (req, res) => {
-  res.send({ message: "Unmatched Url" });
-});
 
 //To get list of subscribers from database
 app.get("/subscribers", async (req, res) => {
@@ -40,7 +37,8 @@ app.get("/subscribers/:id", async (req, res) => {
     res.send(matchedSubscriber);
   } catch (err) {
     res.status(400);
-    res.send({ message: err.message });                   //Displaying message if id doesnt match with database
+    res.send(err.message);        //Displaying message if id doesnt match with database
+                
   }
 });
 
@@ -92,6 +90,12 @@ app.delete("/subscribers/delete/:id", async (req, res) => {
     res.status(404);
     res.send({ error: "Subscriber doesn't exist!" });
   }
+});
+
+
+//Showing unmatched response if tried with any other url mentioned in app
+app.all("*", async (req, res) => {
+  res.send({ message: "Unmatched Url" });
 });
 
 module.exports = app;
